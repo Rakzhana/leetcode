@@ -1,18 +1,29 @@
-// Last updated: 15/07/2026, 14:30:25
+// Last updated: 15/07/2026, 14:31:28
 1class Solution {
-2    public TreeNode sortedListToBST(ListNode head) {
-3        if(head==null) return null;
-4        if(head.next==null) return new TreeNode(head.val);
-5        ListNode slow=head,fast=head,slow_Prev=null;
-6        while(fast!=null && fast.next!=null){
-7            slow_Prev = slow;
-8            slow = slow.next;
-9            fast = fast.next.next;
-10        }
-11        TreeNode root = new TreeNode(slow.val);//Making A Root Node
-12        slow_Prev.next = null;//Braeking The Link For L1
-13        root.left = sortedListToBST(head);
-14        root.right = sortedListToBST(slow.next);
-15        return root;
-16    }
-17}
+2    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+3        List<List<Integer>> output = new ArrayList<>();
+4        dfs(root, targetSum, 0, output, new ArrayList<>());
+5        return output;
+6    }
+7
+8    private void dfs(TreeNode root, int targetSum, int curSum,
+9                     List<List<Integer>> output, List<Integer> currentPath) {
+10        if (root == null) return;
+11
+12        // Add current node's value to sum and path
+13        curSum += root.val;
+14        currentPath.add(root.val);
+15
+16        // If it's a leaf and path sum equals target, add path to result
+17        if (root.left == null && root.right == null && curSum == targetSum) {
+18            output.add(new ArrayList<>(currentPath));
+19        }
+20
+21        // Recur for children
+22        dfs(root.left, targetSum, curSum, output, currentPath);
+23        dfs(root.right, targetSum, curSum, output, currentPath);
+24
+25        // Backtrack: remove current node
+26        currentPath.remove(currentPath.size() - 1);
+27    }
+28}
