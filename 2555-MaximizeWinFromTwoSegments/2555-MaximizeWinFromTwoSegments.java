@@ -1,22 +1,25 @@
-// Last updated: 15/07/2026, 14:31:45
+// Last updated: 15/07/2026, 14:32:58
 1class Solution {
-2    public int maxCount(int[] banned, int n, int maxSum) {
-3        int[] arr=new int[10001];
-4        for(int i=0; i<banned.length; i++){
-5            arr[banned[i]]=1;
-6        }
+2    public int[] separateDigits(int[] nums) {
+3        
+4        List<Integer> list = new ArrayList<>();
+5
+6        for (int num : nums) {
 7
-8        long sum=0;
-9        int cnt=0;
-10        for(int i=1; i<=n; i++){
-11            if(arr[i]==1){continue;}
-12            sum+=i;
-13            if(sum>maxSum){
-14               break;
-15            }
-16            cnt++;
-17        }
-18
-19        return cnt;
-20    }
-21}
+8            String s = String.valueOf(num);
+9
+10            for (char ch : s.toCharArray()) {
+11
+12                list.add(ch - '0');
+13            }
+14        }
+15
+16        int[] result = new int[list.size()];
+17
+18        for (int i = 0; i < list.size(); i++) {
+19            result[i] = list.get(i);
+20        }
+21
+22        return result;
+23    }
+24}
