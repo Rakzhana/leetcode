@@ -1,0 +1,13 @@
+// Last updated: 17/07/2026, 15:12:28
+class Solution {
+    public int singleNumber(int[] nums) {
+        int ans = 0;
+        if(nums.length==1){
+            return nums[0];
+        }
+        for(int i = 0; i < nums.length; i++){
+            ans = ans ^ nums[i];
+        }
+        return ans;
+    }
+}
