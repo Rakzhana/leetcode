@@ -1,4 +1,4 @@
-// Last updated: 24/07/2026, 09:56:43
+// Last updated: 24/07/2026, 09:56:55
 1class Solution {
 2    public void solve(char[][] board) {
 3        int m = board.length;
