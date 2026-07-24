@@ -1,37 +1,34 @@
-// Last updated: 24/07/2026, 09:57:19
-1public class Solution {
-2    public List<List<String>> partition(String s) {
-3        List<List<String>> result = new ArrayList<>();
-4        backtrack(s, 0, new ArrayList<>(), result);
-5        return result;
-6    }
-7
-8    private void backtrack(String s, int start, List<String> path, List<List<String>> result) {
-9        // If we've reached the end of the string, add the current partition to the result list
-10        if (start == s.length()) {
-11            result.add(new ArrayList<>(path));
-12            return;
-13        }
-14        // Explore all possible partitions
-15        for (int end = start + 1; end <= s.length(); end++) {
-16            // If the current substring is a palindrome, add it to the current path
-17            if (isPalindrome(s, start, end - 1)) {
-18                path.add(s.substring(start, end));
-19                // Recur to find other partitions
-20                backtrack(s, end, path, result);
-21                // Backtrack to explore other partitions
-22                path.remove(path.size() - 1);
-23            }
-24        }
-25    }
-26
-27    private boolean isPalindrome(String s, int left, int right) {
-28        // Check if the substring s[left:right+1] is a palindrome
-29        while (left < right) {
-30            if (s.charAt(left++) != s.charAt(right--)) {
-31                return false;
-32            }
-33        }
-34        return true;
-35    }
-36}
+// Last updated: 24/07/2026, 09:57:56
+1class Solution {
+2    public int minCut(String s) {
+3        int n = s.length();
+4        if (n <= 1) return 0;
+5
+6        boolean[][] isPal = new boolean[n][n];
+7        // Precompute palindrome table using DP
+8        for (int end = 0; end < n; end++) {
+9            for (int start = 0; start <= end; start++) {
+10                if (s.charAt(start) == s.charAt(end) && 
+11                   (end - start <= 2 || isPal[start + 1][end - 1])) {
+12                    isPal[start][end] = true;
+13                }
+14            }
+15        }
+16
+17        int[] dp = new int[n];
+18        for (int i = 0; i < n; i++) {
+19            if (isPal[0][i]) {
+20                dp[i] = 0; // No cut needed if s[0...i] is a palindrome
+21            } else {
+22                dp[i] = i; // Max cuts: one for each character
+23                for (int j = 0; j < i; j++) {
+24                    if (isPal[j + 1][i]) {
+25                        // If suffix is palindrome, total = cuts for prefix + 1
+26                        dp[i] = Math.min(dp[i], dp[j] + 1);
+27                    }
+28                }
+29            }
+30        }
+31        return dp[n - 1];
+32    }
+33}
