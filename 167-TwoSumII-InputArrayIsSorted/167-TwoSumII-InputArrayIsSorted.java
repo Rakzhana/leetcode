@@ -1,13 +1,24 @@
-// Last updated: 28/07/2026, 09:37:43
-1class Solution {
-2    public int trailingZeroes(int n) {
-3        int ans = Math.floorDiv(n, 5);
-4        ans += Math.floorDiv(n, 25);
-5        ans += Math.floorDiv(n, 125);
-6        ans += Math.floorDiv(n, 625);
-7        ans += Math.floorDiv(n, 3125);
-8        
-9        
-10        return ans;
+// Last updated: 28/07/2026, 09:38:29
+1public class BSTIterator {
+2    private Stack<TreeNode> stack = new Stack<TreeNode>();
+3    
+4    public BSTIterator(TreeNode root) {
+5        pushAll(root);
+6    }
+7
+8    /** @return whether we have a next smallest number */
+9    public boolean hasNext() {
+10        return !stack.isEmpty();
 11    }
-12}
+12
+13    /** @return the next smallest number */
+14    public int next() {
+15        TreeNode tmpNode = stack.pop();
+16        pushAll(tmpNode.right);
+17        return tmpNode.val;
+18    }
+19    
+20    private void pushAll(TreeNode node) {
+21        for (; node != null; stack.push(node), node = node.left);
+22    }
+23}
