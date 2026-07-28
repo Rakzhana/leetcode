@@ -1,34 +1,33 @@
-// Last updated: 28/07/2026, 10:28:28
-1//If this solution helped you consider giving it an upvote
-2class Solution {
-3    public int calculate(String s) {
-4        int res = 0, n = 0;
-5        Stack<Integer> st = new Stack<>();
-6        s += '+';
-7        char op = '+';
-8        for(int i = 0; i < s.length(); i++){
-9            char c = s.charAt(i);
-10
-11            if(c == ' ') continue;
-12
-13            if(Character.isDigit(c)){
-14                n = n * 10 + (c - '0');
-15                continue;
-16            }
-17
-18            if(op == '+') st.push(n);
-19            else if(op == '-') st.push(-n);
-20            else if(op == '*') st.push(st.pop() * n);
-21            else if(op == '/') st.push(st.pop() / n);
-22
-23            op = c;
-24            n = 0;
-25        }
-26
-27        for(int i : st){
-28            res += i;
+// Last updated: 28/07/2026, 10:29:21
+1import java.util.ArrayList;
+2import java.util.List;
+3
+4class Solution {
+5    public List<String> summaryRanges(int[] nums) {
+6        List<String> result = new ArrayList<>();
+7        if (nums.length == 0) {
+8            return result;
+9        }
+10        
+11        int i = 0;
+12        while (i < nums.length) {
+13            int start = nums[i];
+14            int j = i;
+15            // Expand the range as long as elements are consecutive
+16            while (j + 1 < nums.length && nums[j + 1] == nums[j] + 1) {
+17                j++;
+18            }
+19            
+20            // Format the range string
+21            if (nums[j] == start) {
+22                result.add(String.valueOf(start));
+23            } else {
+24                result.add(start + "->" + nums[j]);
+25            }
+26            
+27            // Move to the next potential start of a range
+28            i = j + 1;
 29        }
-30
-31        return res;
-32    }
-33}
+30        return result;
+31    }
+32}
